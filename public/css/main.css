@@ -1,0 +1,79 @@
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 75px;
+}
+.sidenav a {
+  padding: 8px 8px 8px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+.open-nav {
+  font-size:20px;
+  cursor:pointer;
+  position: fixed;
+  background: black;
+  color: white;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 4px 8px;
+}
+.sidenav a.is_active {
+  background-color: gray;
+}
+.sidenav a:hover,
+.offcanvas a:focus {
+  color: #f1f1f1;
+}
+.sidenav .closebtn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  line-height: 20px;
+  font-size: 36px;
+  padding: 5px;
+  color: white;
+}
+.info-container {
+  border: 1px solid black;
+  box-shadow: 4px 2px 6px 0px gray;
+  padding:30px 20px;
+}
+.table-responsive {
+  margin-top: 20px;
+}
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.margin-bottom {
+  margin-bottom: 1rem;
+}
+form .form-group:last-child {
+  margin-bottom: 0;
+}
+.align-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+}
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
