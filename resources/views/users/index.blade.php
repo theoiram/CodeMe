@@ -1,13 +1,6 @@
-@section('content')
-<div id="mySidenav" class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="#" class="is_active">Administración de usuarios</a>
-      <a href="#">Administración de transportistas</a>
-      <a href="#">Control de productos y transportes</a>
-      <a href="#">Cerrar sesión</a>
-    </div>
-    <span class="open-nav" onclick="openNav()">&#9776;</span>
+@extends('layouts.app')
 
+@section('content')
     <div class="container">
       <h3>ADMINISTRACIÓN DE USUARIOS</h3>
       <div class="info-container">
@@ -23,19 +16,30 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Oliver Atom</td>
-                <td>oliver@niupi.com</td>
-                <td class="text-right">
-                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editModal">EDITAR</button>
-                  <button type="button" class="btn btn-danger">ELIMINAR</button>
-                </td>
-              </tr>
+              @foreach ($data as $row)
+                <tr>
+                  <td>{{ $row->id }}</td>
+                  <td>{{ $row->name }}</td>
+                  <td>{{ $row->email }}</td>
+                  <td class="text-right">
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editModal" data-id="{{ $row->id }}">EDITAR</button>
+                    <form method="POST" action="{{ route('users.destroy', $row->id) }}">
+                      {{ method_field('DELETE') }}
+                      {{ csrf_field() }}
+                      <button type="submit" class="btn btn-danger" >ELIMINAR</button>
+                    </form>
+                  </td>
+                </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
       </div>
+      @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+      @endif
     </div>
     <!-- Modal for edit -->
     <div id="editModal" class="modal fade" role="dialog">
@@ -47,19 +51,20 @@
             <h4 class="modal-title">Editar usuario</h4>
           </div>
           <div class="modal-body">
-            <form action="" method="POST" role="form">
+            <form method="POST" role="form" id="formUpdate">
+              {{ csrf_field() }}
               <div class="form-group">
                 <label for="name">Nombre:</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="name" name="name">
               </div>
               <div class="form-group">
                 <label for="email">Correo electrónico:</label>
-                <input type="email" class="form-control" id="email">
+                <input type="email" class="form-control" id="email" name="email">
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-block margin-bottom">Aceptar</button>
+            <button type="submit" class="btn btn-primary btn-block margin-bottom" form="formUpdate">Aceptar</button>
             <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancelar</button>
           </div>
         </div>
@@ -76,19 +81,20 @@
             <h4 class="modal-title">Agregar usuario</h4>
           </div>
           <div class="modal-body">
-            <form action="" method="POST" role="form">
+            <form action="{{ route('users.store') }}" method="POST" role="form" id="formCreate">
+            {{ csrf_field() }}
               <div class="form-group">
                 <label for="name">Nombre:</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="name" name="name">
               </div>
               <div class="form-group">
                 <label for="email">Correo electrónico:</label>
-                <input type="email" class="form-control" id="email">
+                <input type="email" class="form-control" id="email" name="email">
               </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-block margin-bottom">Aceptar</button>
+            <button type="submit" class="btn btn-primary btn-block margin-bottom" form="formCreate">Aceptar</button>
             <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Cancelar</button>
           </div>
         </div>
