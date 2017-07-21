@@ -22,7 +22,7 @@
                   <td>{{ $row->name }}</td>
                   <td>{{ $row->email }}</td>
                   <td class="text-right">
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editModal" data-id="{{ $row->id }}">EDITAR</button>
+                    <button type="button" class="btn btn-success aux-btn-edit" data-toggle="modal" data-target="#editModal" data-id="{{ $row->id }}" data-name="{{ $row->name }}" data-email="{{ $row->email }}">EDITAR</button>
                     <form method="POST" action="{{ route('users.destroy', $row->id) }}">
                       {{ method_field('DELETE') }}
                       {{ csrf_field() }}
@@ -51,7 +51,7 @@
             <h4 class="modal-title">Editar usuario</h4>
           </div>
           <div class="modal-body">
-            <form method="POST" role="form" id="formUpdate">
+            <form method="POST" role="form" id="formUpdate" action="{{ route('users.update', '') }}">
               {{ csrf_field() }}
               <div class="form-group">
                 <label for="name">Nombre:</label>
