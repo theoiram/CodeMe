@@ -52,6 +52,7 @@
           </div>
           <div class="modal-body">
             <form method="POST" role="form" id="formUpdate" action="{{ route('users.update', '') }}">
+              {{ method_field('PUT') }}
               {{ csrf_field() }}
               <div class="form-group">
                 <label for="name">Nombre:</label>

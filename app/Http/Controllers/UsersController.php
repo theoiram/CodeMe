@@ -94,11 +94,8 @@ class UsersController extends Controller
     {
         $user = User::find($user->id);
 
-        if ($request->name) {
-            $user->name = $request->name;
-        } else if ($request->email) {
-            $user->email = $request->email;
-        }
+        $user->name = $request->input('name', $user->name);
+        $user->email = $request->input('email', $user->email);
 
         $user->save();
 
