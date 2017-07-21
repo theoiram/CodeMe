@@ -25,7 +25,7 @@ class UpdateUsers extends FormRequest
     {
         return [
             'name' => 'string|alpha|max:255',
-            'email' => 'email'
+            'email' => 'string|email|max:255'
         ];
     }
 }
