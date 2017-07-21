@@ -22,8 +22,3 @@ $(document).ready(function() {
         $('#formUpdate #email').val(email);
     });
 });
-$(function() {
-    $('#addModal').on("show.bs.modal", function (e) {
-         
-    });
-});

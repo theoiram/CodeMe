@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Http\Requests\StoreUsers;
+use App\Http\Requests\UpdateUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -46,7 +48,7 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUsers $request)
     {
         $user = new User;
         $passwordValue = rand();
@@ -90,7 +92,7 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUsers $request, User $user)
     {
         $user = User::find($user->id);
 
