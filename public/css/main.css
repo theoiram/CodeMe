@@ -69,6 +69,12 @@ form .form-group:last-child {
   align-items: center;
   flex-direction: column;
 }
+.custom-pills a {
+  min-height: 86px;
+}
+.custom-pills li.active a {
+  background-color: orange;
+}
 @media screen and (max-height: 450px) {
   .sidenav {
     padding-top: 15px;
