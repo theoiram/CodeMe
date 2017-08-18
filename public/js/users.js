@@ -1,9 +1,3 @@
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-}
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
 $(document).ready(function() {
     $('.aux-btn-edit').on('click', function(evt) {
         id = $(this).data('id');
@@ -20,5 +14,6 @@ $(document).ready(function() {
         $('#formUpdate').attr('action', form_url);
         $('#formUpdate #name').val(name);
         $('#formUpdate #email').val(email);
+
     });
 });

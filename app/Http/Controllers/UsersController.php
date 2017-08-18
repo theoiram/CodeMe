@@ -27,9 +27,12 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $data = User::all();
+        $users = User::all();
+        $roles = \App\Role::all();
 
-        return view('users.index')->with('data', $data);
+        return view('users.index')
+            ->with('users', $users)
+            ->with('roles', $roles);
     }
 
     /**
@@ -51,15 +54,18 @@ class UsersController extends Controller
     public function store(StoreUsers $request)
     {
         $user = new User;
-        $passwordValue = rand();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($passwordValue);
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = bcrypt('password');
+
+        $role = \App\Role::find($request->input('role'));
+        $user->role()->associate($role);
 
         $user->save();
 
-        return redirect()->route('users.index')
+        return redirect()
+            ->route('users.index')
             ->with('success', 'Usuario guardado con éxito');
     }
 
@@ -96,8 +102,18 @@ class UsersController extends Controller
     {
         $user = User::find($user->id);
 
-        $user->name = $request->input('name', $user->name);
-        $user->email = $request->input('email', $user->email);
+        if ($request->has('name')) {
+            $user->name = $request->input('name');    
+        }
+        if ($request->has('email')) {
+            $user->email = $request->input('email');   
+        }
+        if ($request->has('role')) {
+            if ($request->input('role') != 0) {
+                $role = \App\Role::find($request->input('role'));
+                $user->role()->associate($role);
+            }
+        }
 
         $user->save();
 

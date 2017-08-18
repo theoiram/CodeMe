@@ -1,55 +1,57 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-      <h3>ADMINISTRACIÓN DE USUARIOS</h3>
-      <div class="info-container">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">AGREGAR USUARIO</button>
-        <div class="table-responsive">          
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>id</th>
-                <th>Nombre completo</th>
-                <th>Correo electrónico</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($data as $row)
-                <tr>
-                  <td>{{ $row->id }}</td>
-                  <td>{{ $row->name }}</td>
-                  <td>{{ $row->email }}</td>
-                  <td class="text-right">
-                    <button type="button" class="btn btn-success aux-btn-edit" data-toggle="modal" data-target="#editModal" data-id="{{ $row->id }}" data-name="{{ $row->name }}" data-email="{{ $row->email }}">EDITAR</button>
-                    <form method="POST" action="{{ route('users.destroy', $row->id) }}">
-                      {{ method_field('DELETE') }}
-                      {{ csrf_field() }}
-                      <button type="submit" class="btn btn-danger" >ELIMINAR</button>
-                    </form>
-                  </td>
-                </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
+  @include('layouts._side_menu')
+  <div class="col-sm-10">
+    <h3>ADMINISTRACIÓN DE USUARIOS</h3>
+    @if (session('success'))
+      <div class="alert alert-success">
+          {{ session('success') }}
       </div>
-      @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-      @endif
-      @if ($errors->any())
-          <div class="alert alert-danger">
-              <ul>
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-          </div>
-      @endif
+    @endif
+    <div class="info-container">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">AGREGAR USUARIO</button>
+      <div class="table-responsive">          
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Nombre completo</th>
+              <th>Correo electrónico</th>
+              <th>Permiso</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($users as $user)
+              <tr>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->role->name }}</td>
+                <td class="text-right">
+                  <button type="button" class="btn btn-success btn-block aux-btn-edit" data-toggle="modal" data-target="#editModal" data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-email="{{ $user->email }}" data-role="{{ $user->role->id }}">EDITAR</button>
+                  <form method="POST" action="{{ route('users.destroy', $user->id) }}">
+                    {{ method_field('DELETE') }}
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-danger btn-block" >ELIMINAR</button>
+                  </form>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
+    
     <!-- Modal for edit -->
     <div id="editModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -70,6 +72,15 @@
               <div class="form-group">
                 <label for="email">Correo electrónico:</label>
                 <input type="email" class="form-control" id="email" name="email">
+              </div>
+              <div class="form-group">
+                <label for="role">Permiso</label>
+                <select id="role" name="role" class="form-control">
+                    <option value="0">Modifica el permiso</option>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}">{{ ucwords($role->name) }}</option>
+                    @endforeach
+                </select>
               </div>
             </form>
           </div>
@@ -100,6 +111,14 @@
               <div class="form-group">
                 <label for="email">Correo electrónico:</label>
                 <input type="email" class="form-control" id="email" name="email">
+              </div>
+              <div class="form-group">
+                <label for="role">Permiso</label>
+                <select id="role" name="role" class="form-control">
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}">{{ ucwords($role->name) }}</option>
+                    @endforeach
+                </select>
               </div>
             </form>
           </div>

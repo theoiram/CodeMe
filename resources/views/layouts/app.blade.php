@@ -44,10 +44,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}">Ingresar</a></li>
-                            <li><a href="{{ route('register') }}">Registrarse</a></li>
+                            <li><a href="{{ route('login') }}">Administración</a></li>
                         @else
-                            @include('layouts._side_menu')
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -72,12 +70,19 @@
                 </div>
             </div>
         </nav>
-
-        @yield('content')
+        <div class="fluid-container">
+            <div class="row">
+                @yield('content')
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
+    @if (Request::is('users'))
+        <script src="{{ asset('js/users.js') }}"></script>
+    @elseif (Request::is('shipments'))
+        <script src="{{ asset('js/shipments.js') }}"></script>
+    @endif
 </body>
 </html>
